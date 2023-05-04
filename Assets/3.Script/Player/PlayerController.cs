@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
         {
             transform.Rotate(new Vector3(-85f * Time.deltaTime, 0, 0));
         }
-        Debug.Log(player_R.rotation.eulerAngles.x);
+        
     }
 
     private void Die()
