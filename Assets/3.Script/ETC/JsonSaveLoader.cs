@@ -28,7 +28,7 @@ public class JsonSaveLoader : MonoBehaviour
         //record.name = "temp";
 
         //게임오버 시 
-        //record.score = GameManager.Instance.score;
+        record.score = GameManager.Instance.score;
 
         //기록을 문장형데이터로
         string jsonData = JsonConvert.SerializeObject(record);

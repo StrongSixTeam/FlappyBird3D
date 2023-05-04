@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviour
         Time.timeScale = 0;
 
         //Gameover, Restart UI ¿€º∫
+        GameManager.Instance.Gameover_Active();
     }
 
     private IEnumerator WingMove_co()

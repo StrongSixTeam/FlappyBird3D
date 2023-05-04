@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        score = 0;
         gameover_ui.SetActive(false);
     }
 
@@ -51,40 +52,42 @@ public class GameManager : MonoBehaviour
 
     public void ScoreUp()
     {
-        //StartCoroutine(ScoreUp_co());
+        StartCoroutine(ScoreUp_co());
     }
 
     IEnumerator ScoreUp_co()
     {
         //1초 마다 스코어가 오른다
-        //while (true)
-        //{
-        //score++;
-        //score_Text.text = "Score : " + score;
-        yield return new WaitForSeconds(1);
-        //}
+        while (true)
+        {
+            score++;
+            score_Text.text = "Score : " + score;
+            yield return new WaitForSeconds(1);
+        }
     }
-
 
 
 
     //게임오버시 PlayerController > Die() 에서 호출
     public void Gameover_Active()
     {
-        //StopCoroutine(ScoreUp_co());
+        StopCoroutine(ScoreUp_co());
         gameover_ui.SetActive(true);
+
+        
     }
+
 
     //나가기를 누르면 인트로 씬 로드 (닉네임 다시 입력 가능)
     public void IntroScene()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("IntroScene");
     }
 
     //다시시작 버튼을 누르면 현재 씬 로드 (닉네임을 유지한채 재시도)
     public void Restart()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("SampleScene");
     }
 
 
