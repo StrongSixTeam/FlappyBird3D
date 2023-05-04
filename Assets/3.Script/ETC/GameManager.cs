@@ -40,16 +40,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text name_Text; //이름
     [SerializeField] private Text totalScore_Text; //최종스코어
 
+    [Header("Json 오브젝트")]
+    [SerializeField] private GameObject json;
 
 
     private void Start()
     {
+        Time.timeScale = 1;
         score = 0;
         gameover_ui.SetActive(false);
+        ScoreUp();
     }
 
-
-
+    
     public void ScoreUp()
     {
         StartCoroutine(ScoreUp_co());
@@ -74,7 +77,13 @@ public class GameManager : MonoBehaviour
         StopCoroutine(ScoreUp_co());
         gameover_ui.SetActive(true);
 
-        
+        name_Text.text = "temp_name";
+        totalScore_Text.text = "" + score;
+
+        //이름과 스코어를 기록합니다
+        Record record = new Record("temp_name", score);
+        json.GetComponent<JsonSaveLoader>().Save_Record(record);
+
     }
 
 
