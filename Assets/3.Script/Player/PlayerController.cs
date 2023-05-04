@@ -5,15 +5,27 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody player_R;
+    private AudioSource playerAudio;
 
     //left, right wing
     [SerializeField] Transform[] Wings;
+
+    [Header("플레이어 오디오 클립")]
+    [SerializeField] AudioClip deathClip;
+    [SerializeField] AudioClip Item01Clip;
+    [SerializeField] AudioClip Item02Clip;
+    [SerializeField] AudioClip Item03Clip;
+    [SerializeField] AudioClip breakClip;
+    [SerializeField] AudioClip WingClip;
 
     private bool isJump = false;
 
     private void Awake()
     {
         TryGetComponent(out player_R);
+        TryGetComponent(out playerAudio);
+
+        //string name = PlayerPrefs.GetString("PlayerName");
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -24,14 +36,17 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Item01"))
         {
             //거대화 아이템
+            playerAudio.PlayOneShot(Item01Clip);
         }
         if (other.CompareTag("Item02"))
         {
             //점수 증가 아이템
+            playerAudio.PlayOneShot(Item02Clip);
         }
         if (other.CompareTag("Item03"))
         {
             //변신 아이템
+            playerAudio.PlayOneShot(Item03Clip);
         }
     }
     private void Update()
@@ -44,7 +59,7 @@ public class PlayerController : MonoBehaviour
         }
         if (isJump)
         {
-            StartCoroutine(WingMove_co());
+            //StartCoroutine(WingMove_co());
             isJump = false;
         }
 
@@ -57,11 +72,12 @@ public class PlayerController : MonoBehaviour
         {
             transform.Rotate(new Vector3(-85f * Time.deltaTime, 0, 0));
         }
-        Debug.Log(player_R.rotation.eulerAngles.x);
     }
 
     private void Die()
     {
+        playerAudio.PlayOneShot(deathClip);
+
         Time.timeScale = 0;
 
         //Gameover, Restart UI 작성
