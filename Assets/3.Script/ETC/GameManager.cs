@@ -78,13 +78,13 @@ public class GameManager : MonoBehaviour
     //나가기를 누르면 인트로 씬 로드 (닉네임 다시 입력 가능)
     public void IntroScene()
     {
-
+        SceneManager.LoadScene(0);
     }
 
     //다시시작 버튼을 누르면 현재 씬 로드 (닉네임을 유지한채 재시도)
     public void Restart()
     {
-
+        SceneManager.LoadScene(1);
     }
 
 
