@@ -10,11 +10,16 @@ public class item : MonoBehaviour
     void Update()
     {
         //항상 빙글 돌기
-        transform.Rotate(Vector3.up * Time.deltaTime * rotationSpeed); 
+        transform.Rotate(Vector3.up * Time.deltaTime * rotationSpeed);
     }
 
-    public void activeFalse() //아이템 끄기
+    public void activeFalse() //플레이어 스크립트에서 item과 부딪힐 때 아이템 끄기 불러오기
     {
         gameObject.SetActive(false);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("만남");
     }
 }
