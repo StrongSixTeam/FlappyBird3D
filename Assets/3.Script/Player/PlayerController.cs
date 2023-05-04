@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
         //마우스 버튼으로 위쪽 방향 힘 주기
         if (Input.GetMouseButtonDown(0))
         {
-            player_R.velocity = new Vector3(0, 2, 0);
+            player_R.velocity = new Vector3(0, 0.5f, 0);
         }
 
         //힘에 따라 캐릭터 로테이션 돌리기
