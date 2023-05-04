@@ -9,13 +9,15 @@ public class PlayerController : MonoBehaviour
     //left, right wing
     [SerializeField] Transform[] Wings;
 
+    private bool isJump = false;
+
     private void Awake()
     {
         TryGetComponent(out player_R);
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Pipe"))
+        if (other.CompareTag("Pipe") || other.CompareTag("DeadZone"))
         {
             Die();
         }
@@ -38,21 +40,40 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             player_R.velocity = new Vector3(0, 0.5f, 0);
+            isJump = true;
+        }
+        if (isJump)
+        {
+            StartCoroutine(WingMove_co());
+            isJump = false;
         }
 
         //힘에 따라 캐릭터 로테이션 돌리기
-        if (player_R.velocity.y > 0)
+        if (player_R.velocity.y > 0 && (player_R.rotation.eulerAngles.x < 20))
         {
-            transform.Rotate(new Vector3(50f * Time.deltaTime, 0, 0));
+            transform.Rotate(new Vector3(80f * Time.deltaTime, 0, 0));
         }
-        if (player_R.velocity.y <= 0)
+        if (player_R.velocity.y <= 0 && player_R.rotation.eulerAngles.x > 20)
         {
-            transform.Rotate(new Vector3(-50f * Time.deltaTime, 0, 0));
+            transform.Rotate(new Vector3(-85f * Time.deltaTime, 0, 0));
         }
+        Debug.Log(player_R.rotation.eulerAngles.x);
     }
+
     private void Die()
     {
         Time.timeScale = 0;
+
         //Gameover, Restart UI 작성
     }
+
+    private IEnumerator WingMove_co()
+    {
+        Wings[0].localPosition -= Vector3.forward * Time.deltaTime;
+
+        yield return new WaitForSeconds(2f);
+
+        Wings[0].localPosition += Vector3.forward * Time.deltaTime;
+    }
+
 }
