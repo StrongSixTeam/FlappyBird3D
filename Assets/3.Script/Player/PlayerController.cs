@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //힘에 따라 캐릭터 로테이션 돌리기
-        if (player_R.velocity.y > 0 && (player_R.rotation.eulerAngles.x < 20))
+        if (player_R.velocity.y > 0 && (player_R.rotation.eulerAngles.x > 20))
         {
             transform.Rotate(new Vector3(80f * Time.deltaTime, 0, 0));
         }
