@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
 
     [Header("스코어")]
     [SerializeField] private Text score_Text; //플레이화면에 띄울 현재 스코어
-    private int score;
+    public int score;
 
 
     [Header("Gameover 오브젝트")]
