@@ -46,7 +46,6 @@ public class PlayerController_forItem : MonoBehaviour
             getItem.waitSeconds();
             if (getItem.type.Equals(1))
             {
-                Debug.Log("Ä¿Áü");
                 StartCoroutine(biggerCo());
             }
             else if (getItem.type.Equals(2))
