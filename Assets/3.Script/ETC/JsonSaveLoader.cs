@@ -28,9 +28,16 @@ public class JsonSaveLoader : MonoBehaviour
     [SerializeField] private GameObject[] nameText = new GameObject[5];
     [SerializeField] private GameObject[] scoreText = new GameObject[5];
 
+    string path_PC;
+    string path_Android;
+
     private void Start()
     {
-        for(int i=0; i<5; i++)
+        path_PC = Path.Combine(Application.dataPath + "PBsave.json");
+        path_Android = Path.Combine(Application.persistentDataPath, "PBsave.json");
+
+
+        for (int i=0; i<5; i++)
         {
             nameText[i].SetActive(false);
             scoreText[i].SetActive(false);
@@ -42,8 +49,8 @@ public class JsonSaveLoader : MonoBehaviour
         if (File.Exists("/PBsave.json"))
         {
             Debug.Log("저장된 기록이 존재합니다");
-            string jsonData = File.ReadAllText(Application.persistentDataPath + "%userprofile%/AppData/LocalLow/FlappyBird3D/PBsave.json");
-            //string jsonDataA = File.ReadAllText(Application.persistentDataPath + "/mnt/sdcard/Android/data/FlappyBird3D/files/PBsave.json");
+            string jsonData = File.ReadAllText(path_PC);
+            //string jsonData = File.ReadAllText(path_Android);
             List<Record> list = JsonConvert.DeserializeObject<List<Record>>(jsonData);
 
             for(int i=0; i<list.Count; i++)
@@ -78,9 +85,9 @@ public class JsonSaveLoader : MonoBehaviour
         print("List 기록 : " + jsonData);
 
         //jsonData(string)을 파일로 저장
-        //File.WriteAllText(Application.dataPath + "/PBsave.json", jsonData);
-        File.WriteAllText(Application.persistentDataPath + "%userprofile%/AppData/LocalLow/FlappyBird3D/PBsave.json", jsonData);
-        //File.WriteAllText(Application.persistentDataPath + "/mnt/sdcard/Android/data/FlappyBird3D/files/PBsave.json", jsonData);
+        Debug.Log(path_PC);
+        File.WriteAllText(path_PC, jsonData);
+        //File.WriteAllText(path_Android, jsonData);
 
         //등수 비교
         Load_Record();
@@ -89,8 +96,8 @@ public class JsonSaveLoader : MonoBehaviour
 
     public void Load_Record()
     {
-        string jsonData = File.ReadAllText(Application.persistentDataPath + "%userprofile%/AppData/LocalLow/FlappyBird3D/PBsave.json");
-        //string jsonDataA = File.ReadAllText(Application.persistentDataPath + "/mnt/sdcard/Android/data/FlappyBird3D/files/PBsave.json");
+        string jsonData = File.ReadAllText(path_PC);
+        //string jsonData = File.ReadAllText(path_Android);
         print("파일 : " + jsonData);
 
 
@@ -133,7 +140,7 @@ public class JsonSaveLoader : MonoBehaviour
         }
         
 
-        //5등 이상까지만 보여주기
+        //5등 이상까지만 UI에서 보여주기
         if(ranking_n.Length >= 5)
         {
             for (int i = 0; i < 5; i++)
@@ -173,8 +180,8 @@ public class JsonSaveLoader : MonoBehaviour
         //파일 업데이트
         jsonData = JsonConvert.SerializeObject(saveData);
         print("갱신 : " + jsonData);
-        File.WriteAllText(Application.persistentDataPath + "%userprofile%/AppData/LocalLow/FlappyBird3D/PBsave.json", jsonData);
-        //File.WriteAllText(Application.persistentDataPath + "/mnt/sdcard/Android/data/FlappyBird3D/files/PBsave.json", jsonData);
+        File.WriteAllText(path_PC, jsonData);
+        File.WriteAllText(path_Android, jsonData);
 
     }
 
