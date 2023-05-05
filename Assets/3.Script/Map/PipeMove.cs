@@ -8,7 +8,10 @@ public class PipeMove : MonoBehaviour
 
     float xPos;
 
-
+    private void Start()
+    {
+        PipeControll();
+    }
 
 
     public void PipeControll()
@@ -16,7 +19,7 @@ public class PipeMove : MonoBehaviour
         for (int i = 0; i < pipes.Length; i++)
         {
             xPos = pipes[i].localPosition.x;
-            pipes[i].localPosition = new Vector3(xPos, Random.Range(-0.5f, 0.4f), 0);
+            pipes[i].localPosition = new Vector3(xPos, Random.Range(0f, 0.8f), 0);
         }
     }
 }
