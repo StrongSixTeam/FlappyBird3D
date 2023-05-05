@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5561022280633459234}
   m_Layer: 0
   m_Name: Pipe09
-  m_TagString: Untagged
+  m_TagString: Pipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 566363905039215584}
   m_Layer: 0
   m_Name: Pipe07
-  m_TagString: Untagged
+  m_TagString: Pipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 3544752535710758145}
   m_Layer: 0
   m_Name: Pipe01
-  m_TagString: Untagged
+  m_TagString: Pipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -302,7 +302,7 @@ GameObject:
   - component: {fileID: 5600519466444228150}
   m_Layer: 0
   m_Name: Pipe08
-  m_TagString: Untagged
+  m_TagString: Pipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -574,7 +574,7 @@ GameObject:
   - component: {fileID: 1259978959764284105}
   m_Layer: 0
   m_Name: Pipe05
-  m_TagString: Untagged
+  m_TagString: Pipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -670,7 +670,7 @@ GameObject:
   - component: {fileID: 8996530170963497245}
   m_Layer: 0
   m_Name: Pipe10
-  m_TagString: Untagged
+  m_TagString: Pipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -765,7 +765,7 @@ GameObject:
   - component: {fileID: 2288567550346307653}
   m_Layer: 0
   m_Name: Pipe04
-  m_TagString: Untagged
+  m_TagString: Pipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -939,7 +939,7 @@ GameObject:
   - component: {fileID: 7167221552305629973}
   m_Layer: 0
   m_Name: Pipe03
-  m_TagString: Untagged
+  m_TagString: Pipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -952,7 +952,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7460815623500421118}
   m_LocalRotation: {x: -0.0000001376788, y: -0.7071069, z: -0.70710677, w: -0.0000001376788}
-  m_LocalPosition: {x: -0.018736243, y: 1.2, z: -3.0634913}
+  m_LocalPosition: {x: -0.02, y: 1.55, z: -3.06}
   m_LocalScale: {x: 0.45004317, y: 0.45004323, z: 0.45004323}
   m_Children:
   - {fileID: 3055497345866592784}
@@ -1035,7 +1035,7 @@ GameObject:
   - component: {fileID: 4287284151210625938}
   m_Layer: 0
   m_Name: Pipe06
-  m_TagString: Untagged
+  m_TagString: Pipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1211,7 +1211,7 @@ GameObject:
   - component: {fileID: 5863318884602453214}
   m_Layer: 0
   m_Name: Pipe02
-  m_TagString: Untagged
+  m_TagString: Pipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

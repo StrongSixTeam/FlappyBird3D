@@ -18,7 +18,7 @@ public class BackgroundScrolling : MonoBehaviour
     // x축 포지션이 width보다 길어지면 리포지션 메소드 실행 
     void Update()
     {
-        Debug.Log(width);
+      
         if (transform.position.x <= -width)
         {
             Reposition();

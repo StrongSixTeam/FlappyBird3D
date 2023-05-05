@@ -16,7 +16,7 @@ public class PipeMove : MonoBehaviour
         for (int i = 0; i < pipes.Length; i++)
         {
             xPos = pipes[i].localPosition.x;
-            pipes[i].localPosition = new Vector3(xPos, Random.Range(1f, 3f), -3);
+            pipes[i].localPosition = new Vector3(xPos, Random.Range(0.8f, 2.3f), -3);
         }
     }
 }
