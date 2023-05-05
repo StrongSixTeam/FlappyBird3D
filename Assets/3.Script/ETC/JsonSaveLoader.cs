@@ -1,10 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using UnityEngine.UI;
 using System.IO;
-using Newtonsoft.Json.Linq;
 
 public class Record
 {
@@ -33,7 +31,7 @@ public class JsonSaveLoader : MonoBehaviour
 
     private void Start()
     {
-        path_PC = Path.Combine(Application.dataPath + "PBsave.json");
+        //path_PC = Path.Combine(Application.dataPath + "PBsave.json");
         path_Android = Path.Combine(Application.persistentDataPath, "PBsave.json");
 
         
@@ -46,7 +44,7 @@ public class JsonSaveLoader : MonoBehaviour
 
         //세이브파일에 저장된 기록이 있다면
         //List saveData에 업데이트합니다
-        if (File.Exists(path_PC))
+        if (File.Exists(path_Android))  //PC or Android 환경에맞춰 바꿔주세요
         {
             Debug.Log("저장된 기록이 존재합니다");
             
@@ -178,8 +176,8 @@ public class JsonSaveLoader : MonoBehaviour
         //리스트에 저장된 내용을 string으로
         string jsonData = JsonConvert.SerializeObject(saveData);
 
-        File.WriteAllText(path_PC, jsonData);
-        //File.WriteAllText(path_Android, jsonData);
+        //File.WriteAllText(path_PC, jsonData);
+        File.WriteAllText(path_Android, jsonData);
 
         print("파일 업데이트 : " + jsonData);
     }
@@ -188,8 +186,8 @@ public class JsonSaveLoader : MonoBehaviour
     private string File_Read()
     {
         //파일에 저장된 내용을 string으로
-        string jsonData = File.ReadAllText(path_PC);
-        //string jsonData = File.ReadAllText(path_Android);
+        //string jsonData = File.ReadAllText(path_PC);
+        string jsonData = File.ReadAllText(path_Android);
 
         print("파일 불러오기 : " + jsonData);
 
