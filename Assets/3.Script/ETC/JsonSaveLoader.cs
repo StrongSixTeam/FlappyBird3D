@@ -36,7 +36,7 @@ public class JsonSaveLoader : MonoBehaviour
         path_PC = Path.Combine(Application.dataPath + "PBsave.json");
         path_Android = Path.Combine(Application.persistentDataPath, "PBsave.json");
 
-
+        
         for (int i=0; i<5; i++)
         {
             nameText[i].SetActive(false);
@@ -46,65 +46,56 @@ public class JsonSaveLoader : MonoBehaviour
 
         //세이브파일에 저장된 기록이 있다면
         //List saveData에 업데이트합니다
-        if (File.Exists("/PBsave.json"))
+        if (File.Exists(path_PC))
         {
             Debug.Log("저장된 기록이 존재합니다");
-            string jsonData = File.ReadAllText(path_PC);
-            //string jsonData = File.ReadAllText(path_Android);
-            List<Record> list = JsonConvert.DeserializeObject<List<Record>>(jsonData);
+            
+            List<Record> list = JsonConvert.DeserializeObject<List<Record>>(File_Read());
 
             for(int i=0; i<list.Count; i++)
             {
                 saveData.Add(list[i]);
             }
-
         }
-        else
-        {
-            //확인용
-            saveData.Add(new Record("A", 10));
-            saveData.Add(new Record("B", 6));
-            saveData.Add(new Record("C", 0));
-            saveData.Add(new Record("D", 5));
-            saveData.Add(new Record("E", 3));
-            saveData.Add(new Record("F", 120));
-
-        }
-
 
     }
 
     //플레이어의 기록을 저장
     public void Save_Record(Record record)
     {
-        //현재 기록을 리스트에 추가
-        saveData.Add(record);
+        bool isRetry = false;
 
-        //Record -> string 변환
-        string jsonData = JsonConvert.SerializeObject(saveData);
-        print("List 기록 : " + jsonData);
+        for(int i=0; i<saveData.Count; i++)
+        {
+            //똑같은 이름으로 플레이 기록이 있다면? 더 높은 기록으로 갈아치우기
+            if (saveData[i].name == record.name)
+            {
+                if(saveData[i].score < record.score)
+                {
+                    saveData[i].score = record.score;
+                }
+                
+                isRetry = true;
+            }
+        }
 
-        //jsonData(string)을 파일로 저장
-        Debug.Log(path_PC);
-        File.WriteAllText(path_PC, jsonData);
-        //File.WriteAllText(path_Android, jsonData);
+        if (!isRetry)
+        {
+            //현재 기록을 리스트에 추가
+            saveData.Add(record);
+        }
 
-        //등수 비교
-        Load_Record();
+        File_Update();
+
+        Ranking_Result();
     }
 
-
-    public void Load_Record()
+    private void Ranking_Result()
     {
-        string jsonData = File.ReadAllText(path_PC);
-        //string jsonData = File.ReadAllText(path_Android);
-        print("파일 : " + jsonData);
-
 
         //List에 담긴 내용 - 배열에 담고 score에 따라 등수 매기자
         //비활성해 둔 랭킹 UI Text에 집어넣고, 활성화하자 (5까지만)
-
-
+        
         string[] ranking_n = new string[saveData.Count];
         int[] ranking_s = new int[saveData.Count];
 
@@ -177,12 +168,32 @@ public class JsonSaveLoader : MonoBehaviour
         }
 
 
-        //파일 업데이트
-        jsonData = JsonConvert.SerializeObject(saveData);
-        print("갱신 : " + jsonData);
-        File.WriteAllText(path_PC, jsonData);
-        File.WriteAllText(path_Android, jsonData);
+        File_Update();
 
+    }
+    
+
+    private void File_Update()
+    {
+        //리스트에 저장된 내용을 string으로
+        string jsonData = JsonConvert.SerializeObject(saveData);
+
+        File.WriteAllText(path_PC, jsonData);
+        //File.WriteAllText(path_Android, jsonData);
+
+        print("파일 업데이트 : " + jsonData);
+    }
+
+
+    private string File_Read()
+    {
+        //파일에 저장된 내용을 string으로
+        string jsonData = File.ReadAllText(path_PC);
+        //string jsonData = File.ReadAllText(path_Android);
+
+        print("파일 불러오기 : " + jsonData);
+
+        return jsonData;
     }
 
 }

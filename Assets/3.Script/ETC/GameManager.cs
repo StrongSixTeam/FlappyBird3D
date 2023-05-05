@@ -79,6 +79,10 @@ public class GameManager : MonoBehaviour
 
         //인트로에서 입력받은 이름
         string playerName = PlayerPrefs.GetString("PlayerName");
+        if(playerName == "")
+        {
+            playerName = "익명";
+        }
 
         name_Text.text = playerName;
         totalScore_Text.text = "" + score;
