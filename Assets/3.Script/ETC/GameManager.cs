@@ -89,7 +89,6 @@ public class GameManager : MonoBehaviour
 
         //이름과 스코어를 기록합니다
         Record record = new Record(playerName, score);
-        print(record);
         json.GetComponent<JsonSaveLoader>().Save_Record(record);
 
     }

@@ -83,8 +83,6 @@ public class JsonSaveLoader : MonoBehaviour
             saveData.Add(record);
         }
 
-        File_Update();
-
         Ranking_Result();
     }
 
