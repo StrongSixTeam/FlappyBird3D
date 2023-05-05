@@ -88,7 +88,11 @@ public class GameManager : MonoBehaviour
         totalScore_Text.text = "" + score;
 
         //이름과 스코어를 기록합니다
-        Record record = new Record(playerName, score);
+        Record record = new Record
+        {
+            name = playerName,
+            score = score
+        };
         json.GetComponent<JsonSaveLoader>().Save_Record(record);
 
     }
