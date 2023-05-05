@@ -1127,6 +1127,8 @@ GameObject:
   - component: {fileID: 7192998015140825935}
   - component: {fileID: 208089123888702415}
   - component: {fileID: 7579543600435556123}
+  - component: {fileID: 5755723076696648899}
+  - component: {fileID: 7245483802812431253}
   m_Layer: 0
   m_Name: Cloud
   m_TagString: Untagged
@@ -1197,6 +1199,31 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5755723076696648899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7849662913626608083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07dc242e9eb90664d85f516343f46c73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1.4
+--- !u!114 &7245483802812431253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7849662913626608083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9ebe04f4e7dd1a4d8d8e81b390e7fc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8296606255714288507
 GameObject:
   m_ObjectHideFlags: 0
