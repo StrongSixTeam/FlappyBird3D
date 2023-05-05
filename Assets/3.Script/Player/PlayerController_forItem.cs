@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController_forItem : MonoBehaviour
 {
+    [SerializeField] private GameObject switchEach;
+
     private Rigidbody player_R;
     private AudioSource playerAudio;
 
@@ -28,6 +30,12 @@ public class PlayerController_forItem : MonoBehaviour
 
         //string name = PlayerPrefs.GetString("PlayerName");
     }
+
+    private void OnEnable()
+    {
+        transform.position = switchEach.transform.position;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if ((!isBig && other.CompareTag("Pipe")) || other.CompareTag("DeadZone"))
@@ -37,8 +45,9 @@ public class PlayerController_forItem : MonoBehaviour
         }
         else if (isBig && other.CompareTag("Pipe"))
         {
-            //안죽고 파이프 부서지기
-            Debug.Log("파이프 부숨");
+            //안죽고 파이프 숨기기
+            other.GetComponent<pipe>().Hide();
+            other.transform.parent.GetChild(0).gameObject.SetActive(true); //파티클 맞게
         }
         if (other.CompareTag("Item"))
         {
@@ -46,14 +55,19 @@ public class PlayerController_forItem : MonoBehaviour
             getItem.waitSeconds();
             if (getItem.type.Equals(1))
             {
+                playerAudio.PlayOneShot(Item01Clip);
                 StartCoroutine(biggerCo());
             }
             else if (getItem.type.Equals(2))
             {
+                playerAudio.PlayOneShot(Item02Clip);
                 GameManager.Instance.score += 2;
             }
             else if (getItem.type.Equals(3))
             {
+                playerAudio.PlayOneShot(Item03Clip);
+                switchEach.SetActive(true);
+                gameObject.SetActive(false);
                 //모델링 바꾸기
             }
         }
@@ -105,10 +119,9 @@ public class PlayerController_forItem : MonoBehaviour
     private IEnumerator biggerCo()
     {
         isBig = true;
-        transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+        transform.localScale = new Vector3(1.2f, 1.2f, 1.22f);
         yield return new WaitForSeconds(4f);
         isBig = false;
         transform.localScale = new Vector3(0.45f, 0.45f, 0.45f);
     }
-
 }
