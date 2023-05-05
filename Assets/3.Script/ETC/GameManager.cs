@@ -77,11 +77,15 @@ public class GameManager : MonoBehaviour
         StopCoroutine(ScoreUp_co());
         gameover_ui.SetActive(true);
 
-        name_Text.text = "temp_name";
+        //인트로에서 입력받은 이름
+        string playerName = PlayerPrefs.GetString("PlayerName");
+
+        name_Text.text = playerName;
         totalScore_Text.text = "" + score;
 
         //이름과 스코어를 기록합니다
-        Record record = new Record("temp_name", score);
+        Record record = new Record(playerName, score);
+        print(record);
         json.GetComponent<JsonSaveLoader>().Save_Record(record);
 
     }
