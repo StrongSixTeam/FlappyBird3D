@@ -10,7 +10,11 @@ public class item : MonoBehaviour
     void Update()
     {
         //항상 빙글 돌기
-        transform.Rotate(Vector3.up * Time.deltaTime * rotationSpeed);
+        //transform.Rotate(Vector3.up * Time.deltaTime * rotationSpeed);
+        if (transform.position.x < -5)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public void activeFalse() //플레이어 스크립트에서 item과 부딪힐 때 아이템 끄기 불러오기
@@ -18,8 +22,13 @@ public class item : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void waitSeconds()
     {
-        Debug.Log("만남");
+        gameObject.SetActive(false);
+    }
+
+    public void setActive()
+    {
+        transform.position = new Vector3(-10, transform.position.y, transform.position.z);
     }
 }
