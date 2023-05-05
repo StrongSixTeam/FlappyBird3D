@@ -33,21 +33,21 @@ public class PlayerController : MonoBehaviour
         {
             Die();
         }
-        if (other.CompareTag("Item01"))
-        {
-            //거대화 아이템
-            playerAudio.PlayOneShot(Item01Clip);
-        }
-        if (other.CompareTag("Item02"))
-        {
-            //점수 증가 아이템
-            playerAudio.PlayOneShot(Item02Clip);
-        }
-        if (other.CompareTag("Item03"))
-        {
-            //변신 아이템
-            playerAudio.PlayOneShot(Item03Clip);
-        }
+        //if (other.CompareTag("Item01"))
+        //{
+        //    //거대화 아이템
+        //    playerAudio.PlayOneShot(Item01Clip);
+        //}
+        //if (other.CompareTag("Item02"))
+        //{
+        //    //점수 증가 아이템
+        //    playerAudio.PlayOneShot(Item02Clip);
+        //}
+        //if (other.CompareTag("Item03"))
+        //{
+        //    //변신 아이템
+        //    playerAudio.PlayOneShot(Item03Clip);
+        //}
     }
     private void Update()
     {
