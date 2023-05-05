@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController_forItem : MonoBehaviour
 {
+    [SerializeField] private GameObject switchEach;
+
     private Rigidbody player_R;
     private AudioSource playerAudio;
 
@@ -28,6 +30,12 @@ public class PlayerController_forItem : MonoBehaviour
 
         //string name = PlayerPrefs.GetString("PlayerName");
     }
+
+    private void OnEnable()
+    {
+        transform.position = switchEach.transform.position;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if ((!isBig && other.CompareTag("Pipe")) || other.CompareTag("DeadZone"))
@@ -58,6 +66,8 @@ public class PlayerController_forItem : MonoBehaviour
             else if (getItem.type.Equals(3))
             {
                 playerAudio.PlayOneShot(Item03Clip);
+                switchEach.SetActive(true);
+                gameObject.SetActive(false);
                 //모델링 바꾸기
             }
         }
@@ -113,15 +123,5 @@ public class PlayerController_forItem : MonoBehaviour
         yield return new WaitForSeconds(4f);
         isBig = false;
         transform.localScale = new Vector3(0.45f, 0.45f, 0.45f);
-    }
-
-    private void Hide()
-    {
-        Invoke("active", 4f);
-    }
-    
-    private void active()
-    {
-        gameObject.SetActive(true);
     }
 }
