@@ -54,6 +54,7 @@ public class PlayerController : MonoBehaviour
         //마우스 버튼으로 위쪽 방향 힘 주기
         if (Input.GetMouseButtonDown(0))
         {
+            playerAudio.PlayOneShot(WingClip);  
             player_R.velocity = new Vector3(0, 0.5f, 0);
             isJump = true;
         }
