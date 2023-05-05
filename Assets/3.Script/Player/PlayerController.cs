@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioClip breakClip;
     [SerializeField] AudioClip WingClip;
 
-    private bool isJump = false;
+    private bool isUp = true;
 
     private void Awake()
     {
@@ -56,22 +56,39 @@ public class PlayerController : MonoBehaviour
         {
             playerAudio.PlayOneShot(WingClip);  
             player_R.velocity = new Vector3(0, 0.5f, 0);
-            isJump = true;
-        }
-        if (isJump)
-        {
-            //StartCoroutine(WingMove_co());
-            isJump = false;
         }
 
         //힘에 따라 캐릭터 로테이션 돌리기
-        if (player_R.velocity.y > 0 && (player_R.rotation.eulerAngles.x > 20))
+        if (player_R.velocity.y > 0 && player_R.rotation.x < 0.7f)
         {
             transform.Rotate(new Vector3(80f * Time.deltaTime, 0, 0));
         }
-        if (player_R.velocity.y <= 0 && player_R.rotation.eulerAngles.x > 20)
+        if (player_R.velocity.y <= 0 && player_R.rotation.x > 0.1f)
         {
             transform.Rotate(new Vector3(-85f * Time.deltaTime, 0, 0));
+        }
+
+        //날개 움직임
+
+        if (isUp)
+        {
+            Wings[0].localPosition -= Vector3.forward * Time.deltaTime;
+            Wings[1].localPosition -= Vector3.forward * Time.deltaTime;
+
+            if (Wings[0].localPosition.z <= -0.3)
+            {
+                isUp = false;
+            }
+        }
+        else
+        {
+            Wings[0].localPosition += Vector3.forward * Time.deltaTime;
+            Wings[1].localPosition += Vector3.forward * Time.deltaTime;
+
+            if (Wings[0].localPosition.z >= 0)
+            {
+                isUp = true;
+            }
         }
     }
 
@@ -84,14 +101,4 @@ public class PlayerController : MonoBehaviour
         //Gameover, Restart UI 작성
         GameManager.Instance.Gameover_Active();
     }
-
-    private IEnumerator WingMove_co()
-    {
-        Wings[0].localPosition -= Vector3.forward * Time.deltaTime;
-
-        yield return new WaitForSeconds(2f);
-
-        Wings[0].localPosition += Vector3.forward * Time.deltaTime;
-    }
-
 }
