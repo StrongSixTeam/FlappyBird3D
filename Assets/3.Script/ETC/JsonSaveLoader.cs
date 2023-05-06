@@ -1,42 +1,39 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Newtonsoft.Json;
 using UnityEngine.UI;
-using System.IO;
-using Newtonsoft.Json.Linq;
+using System;
 
+[Serializable]
 public class Record
 {
     public string name;
     public int score;
+}
 
-    //생성자
-    public Record(string name, int score)
-    {
-        this.name = name;
-        this.score = score;
-    }
+public class ArryData
+{
+    public Record[] records;
 }
 
 public class JsonSaveLoader : MonoBehaviour
 {
 
     List<Record> saveData = new List<Record>();
+    ArryData arryData = new ArryData();
 
     [Header("랭킹 UI Text")]
     [SerializeField] private GameObject[] nameText = new GameObject[5];
     [SerializeField] private GameObject[] scoreText = new GameObject[5];
 
-    string path_PC;
     string path_Android;
 
     private void Start()
     {
-        path_PC = Path.Combine(Application.dataPath + "PBsave.json");
-        path_Android = Path.Combine(Application.persistentDataPath, "PBsave.json");
 
-        
+        path_Android = Path.Combine(Application.persistentDataPath + "Save.json");
+        print("파일 저장 위치 : "+path_Android);
+
+
         for (int i=0; i<5; i++)
         {
             nameText[i].SetActive(false);
@@ -46,16 +43,20 @@ public class JsonSaveLoader : MonoBehaviour
 
         //세이브파일에 저장된 기록이 있다면
         //List saveData에 업데이트합니다
-        if (File.Exists(path_PC))
+        if (File.Exists(path_Android))
         {
-            Debug.Log("저장된 기록이 존재합니다");
             
-            List<Record> list = JsonConvert.DeserializeObject<List<Record>>(File_Read());
+            Debug.Log("저장된 기록이 존재합니다");
 
-            for(int i=0; i<list.Count; i++)
+            //배열로 담고 리스트로 변환
+            arryData = JsonUtility.FromJson<ArryData>(File_Read());
+
+            for(int i=0; i< arryData.records.Length; i++)
             {
-                saveData.Add(list[i]);
+                saveData.Add(arryData.records[i]);
             }
+
+            print("List = " + saveData);
         }
 
     }
@@ -85,7 +86,6 @@ public class JsonSaveLoader : MonoBehaviour
             saveData.Add(record);
         }
 
-        File_Update();
 
         Ranking_Result();
     }
@@ -158,7 +158,11 @@ public class JsonSaveLoader : MonoBehaviour
         saveData.Clear();
         for(int i=0; i<ranking_n.Length; i++)
         {
-            saveData.Add(new Record(ranking_n[i], ranking_s[i]));
+            saveData.Add(new Record
+            {
+                name = ranking_n[i],
+                score = ranking_s[i]
+            });
         }
 
         //5등 아래 자르기
@@ -176,10 +180,14 @@ public class JsonSaveLoader : MonoBehaviour
     private void File_Update()
     {
         //리스트에 저장된 내용을 string으로
-        string jsonData = JsonConvert.SerializeObject(saveData);
+        ArryData arryData = new ArryData
+        {
+            records = saveData.ToArray()
+        };
 
-        File.WriteAllText(path_PC, jsonData);
-        //File.WriteAllText(path_Android, jsonData);
+        string jsonData = JsonUtility.ToJson(arryData);
+
+        File.WriteAllText(path_Android, jsonData);
 
         print("파일 업데이트 : " + jsonData);
     }
@@ -188,12 +196,12 @@ public class JsonSaveLoader : MonoBehaviour
     private string File_Read()
     {
         //파일에 저장된 내용을 string으로
-        string jsonData = File.ReadAllText(path_PC);
-        //string jsonData = File.ReadAllText(path_Android);
+        string jsonData = File.ReadAllText(path_Android);
 
         print("파일 불러오기 : " + jsonData);
 
         return jsonData;
+
     }
 
 }
