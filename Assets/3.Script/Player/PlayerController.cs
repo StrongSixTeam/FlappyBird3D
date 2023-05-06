@@ -76,6 +76,11 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
+        if (!GameManager.Instance.isCheck)
+        {
+            
+        }
+        
         //마우스 버튼으로 위쪽 방향 힘 주기
         if (Input.GetMouseButtonDown(0))
         {

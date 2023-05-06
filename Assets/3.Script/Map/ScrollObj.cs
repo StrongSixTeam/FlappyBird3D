@@ -8,7 +8,7 @@ public class ScrollObj : MonoBehaviour
 
     void Update()
     {
-        if (true)
+        if (GameManager.Instance.isCheck)
         {
             transform.Translate(Vector3.left * speed * Time.deltaTime * 0.5f);
         }
