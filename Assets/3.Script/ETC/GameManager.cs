@@ -40,22 +40,55 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text name_Text; //이름
     [SerializeField] private Text totalScore_Text; //최종스코어
 
+    [Header("count 오브젝트")]
+    [SerializeField] private GameObject count_ui;
+    [SerializeField] private Text count_Text;
+    private int count = 3;
+
     [Header("Json 오브젝트")]
     [SerializeField] private GameObject json;
 
+    public bool isCheck = false;
 
     private void Start()
     {
         Time.timeScale = 1;
         score = 0;
-        gameover_ui.SetActive(false);
-        ScoreUp();
+        CountDown();
     }
-
-    
+    private void Update()
+    {
+        if (count < 0 && !isCheck)
+        {
+            isCheck = true;
+            count_ui.SetActive(false);
+            ScoreUp();
+        }
+    }
     public void ScoreUp()
     {
         StartCoroutine(ScoreUp_co());
+    }
+    public void CountDown() //게임 시작 전 카운트다운 메소드
+    {
+        StartCoroutine(CountDown_co());
+    }
+
+    IEnumerator CountDown_co() //카운트다운 코루틴
+    {
+        while (true)
+        {
+            if (count != 0)
+            {
+                count_Text.text = count.ToString();
+            }
+            else
+            {
+                count_Text.text = "START!";
+            }
+            yield return new WaitForSeconds(1);
+            count--;
+        }
     }
 
     IEnumerator ScoreUp_co()
@@ -68,8 +101,6 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(1);
         }
     }
-
-
 
     //게임오버시 PlayerController > Die() 에서 호출
     public void Gameover_Active()
@@ -106,7 +137,4 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("SampleScene");
     }
-
-
-
 }
