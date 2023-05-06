@@ -93,6 +93,7 @@ public class GameManager : MonoBehaviour
             name = playerName,
             score = score
         };
+
         json.GetComponent<JsonSaveLoader>().Save_Record(record);
 
     }

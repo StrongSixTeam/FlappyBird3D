@@ -1,20 +1,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.IO;
-using Newtonsoft.Json;
+using System;
 
-
+[Serializable]
 public class Record
 {
     public string name;
     public int score;
 }
 
+public class ArryData
+{
+    public Record[] records;
+}
+
 public class JsonSaveLoader : MonoBehaviour
 {
 
     List<Record> saveData = new List<Record>();
+    ArryData arryData = new ArryData();
 
     [Header("랭킹 UI Text")]
     [SerializeField] private GameObject[] nameText = new GameObject[5];
@@ -42,13 +47,16 @@ public class JsonSaveLoader : MonoBehaviour
         {
             
             Debug.Log("저장된 기록이 존재합니다");
-            
-            List<Record> list = JsonConvert.DeserializeObject<List<Record>>(File_Read());
 
-            for(int i=0; i<list.Count; i++)
+            //배열로 담고 리스트로 변환
+            arryData = JsonUtility.FromJson<ArryData>(File_Read());
+
+            for(int i=0; i< arryData.records.Length; i++)
             {
-                saveData.Add(list[i]);
+                saveData.Add(arryData.records[i]);
             }
+
+            print("List = " + saveData);
         }
 
     }
@@ -150,7 +158,7 @@ public class JsonSaveLoader : MonoBehaviour
         saveData.Clear();
         for(int i=0; i<ranking_n.Length; i++)
         {
-            saveData.Add(new Record() 
+            saveData.Add(new Record
             {
                 name = ranking_n[i],
                 score = ranking_s[i]
@@ -172,7 +180,12 @@ public class JsonSaveLoader : MonoBehaviour
     private void File_Update()
     {
         //리스트에 저장된 내용을 string으로
-        string jsonData = JsonConvert.SerializeObject(saveData);
+        ArryData arryData = new ArryData
+        {
+            records = saveData.ToArray()
+        };
+
+        string jsonData = JsonUtility.ToJson(arryData);
 
         File.WriteAllText(path_Android, jsonData);
 
@@ -188,6 +201,7 @@ public class JsonSaveLoader : MonoBehaviour
         print("파일 불러오기 : " + jsonData);
 
         return jsonData;
+
     }
 
 }
