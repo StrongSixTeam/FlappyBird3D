@@ -34,7 +34,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text score_Text; //플레이화면에 띄울 현재 스코어
     public int score;
 
-
     [Header("Gameover 오브젝트")]
     [SerializeField] private GameObject gameover_ui;
     [SerializeField] private Text name_Text; //이름
@@ -43,7 +42,11 @@ public class GameManager : MonoBehaviour
     [Header("count 오브젝트")]
     [SerializeField] private GameObject count_ui;
     [SerializeField] private Text count_Text;
-    private int count = 3;
+    private int count;
+
+    [Header("SpeedUP 오브젝트")]
+    [SerializeField] private GameObject SpeedUp_Text;
+    private Color color;
 
     [Header("Json 오브젝트")]
     [SerializeField] private GameObject json;
@@ -54,15 +57,28 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1;
         score = 0;
+        count = 3;
+
+        isCheck = false;
         CountDown();
     }
     private void Update()
     {
         if (count < 0 && !isCheck)
         {
+            StopCoroutine(CountDown_co());
             isCheck = true;
             count_ui.SetActive(false);
             ScoreUp();
+        }
+
+        if(score % 30 == 0 && score != 0)
+        {
+            SpeedUp_Text.SetActive(true);
+        }
+        else
+        {
+            SpeedUp_Text.SetActive(false);
         }
     }
     public void ScoreUp()
@@ -78,7 +94,7 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            if (count != 0)
+            if (count > 0)
             {
                 count_Text.text = count.ToString();
             }
@@ -126,7 +142,6 @@ public class GameManager : MonoBehaviour
         };
 
         json.GetComponent<JsonSaveLoader>().Save_Record(record);
-
     }
 
 

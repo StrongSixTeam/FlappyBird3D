@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private GameObject skin;
-     
+
     private Rigidbody player_R;
     private AudioSource playerAudio;
 
@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
             getItem.waitSeconds(); //아이템 잠시 안보이게
             if (getItem.type.Equals(1))
             {
-                playerAudio.PlayOneShot(Item01Clip);    
+                playerAudio.PlayOneShot(Item01Clip);
                 StartCoroutine(biggerCo());
             }
             else if (getItem.type.Equals(2))
@@ -78,46 +78,50 @@ public class PlayerController : MonoBehaviour
     {
         if (!GameManager.Instance.isCheck)
         {
-            
-        }
-        
-        //마우스 버튼으로 위쪽 방향 힘 주기
-        if (Input.GetMouseButtonDown(0))
-        {
-            playerAudio.PlayOneShot(WingClip);  
-            player_R.velocity = new Vector3(0, 0.5f, 0);
-        }
-
-        //힘에 따라 캐릭터 로테이션 돌리기 - bird 만
-        if (player_R.velocity.y > 0 && player_R.rotation.x < 0.7f && gameObject.CompareTag("Player"))
-        {
-            transform.Rotate(new Vector3(80f * Time.deltaTime, 0, 0));
-        }
-        if (player_R.velocity.y <= 0 && player_R.rotation.x > 0.1f && gameObject.CompareTag("Player"))
-        {
-            transform.Rotate(new Vector3(-85f * Time.deltaTime, 0, 0));
-        }
-
-        //날개 움직임
-
-        if (isUp)
-        {
-            Wings[0].localPosition -= Vector3.forward * Time.deltaTime;
-            Wings[1].localPosition -= Vector3.forward * Time.deltaTime;
-
-            if (Wings[0].localPosition.z <= -0.3)
-            {
-                isUp = false;
-            }
+            player_R.useGravity = false;
         }
         else
         {
-            Wings[0].localPosition += Vector3.forward * Time.deltaTime;
-            Wings[1].localPosition += Vector3.forward * Time.deltaTime;
+            player_R.useGravity = true;
 
-            if (Wings[0].localPosition.z >= 0)
+            //마우스 버튼으로 위쪽 방향 힘 주기
+            if (Input.GetMouseButtonDown(0))
             {
-                isUp = true;
+                playerAudio.PlayOneShot(WingClip);
+                player_R.velocity = new Vector3(0, 0.5f, 0);
+            }
+
+            //힘에 따라 캐릭터 로테이션 돌리기 - bird 만
+            if (player_R.velocity.y > 0 && player_R.rotation.x < 0.7f && gameObject.CompareTag("Player"))
+            {
+                transform.Rotate(new Vector3(80f * Time.deltaTime, 0, 0));
+            }
+            if (player_R.velocity.y <= 0 && player_R.rotation.x > 0.1f && gameObject.CompareTag("Player"))
+            {
+                transform.Rotate(new Vector3(-85f * Time.deltaTime, 0, 0));
+            }
+
+            //날개 움직임
+
+            if (isUp)
+            {
+                Wings[0].localPosition -= Vector3.forward * Time.deltaTime;
+                Wings[1].localPosition -= Vector3.forward * Time.deltaTime;
+
+                if (Wings[0].localPosition.z <= -0.3)
+                {
+                    isUp = false;
+                }
+            }
+            else
+            {
+                Wings[0].localPosition += Vector3.forward * Time.deltaTime;
+                Wings[1].localPosition += Vector3.forward * Time.deltaTime;
+
+                if (Wings[0].localPosition.z >= 0)
+                {
+                    isUp = true;
+                }
             }
         }
     }

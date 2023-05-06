@@ -7,6 +7,7 @@ TagManager:
   - Pipe
   - DeadZone
   - Item
+  - Map
   layers:
   - Default
   - TransparentFX

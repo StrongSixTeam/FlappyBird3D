@@ -8,6 +8,7 @@ public class BackgroundScrolling : MonoBehaviour
     private PipeMove pipeMove;
     private CloudHeight cloudHeight;
 
+    public bool isMove = false;
 
     private void Awake()
     {
@@ -41,7 +42,7 @@ public class BackgroundScrolling : MonoBehaviour
 
         Vector3 offset = new Vector3(width * 2f, 0, 0);
         transform.position = transform.position + offset;
-       
-      
+
+        isMove = true;
     }
 }
