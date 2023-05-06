@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private GameObject skin;
+     
     private Rigidbody player_R;
     private AudioSource playerAudio;
 
@@ -18,7 +20,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioClip breakClip;
     [SerializeField] AudioClip WingClip;
 
-    private bool isJump = false;
+    private bool isUp = true;
+    private bool isBig = false;
 
     private void Awake()
     {
@@ -27,27 +30,49 @@ public class PlayerController : MonoBehaviour
 
         //string name = PlayerPrefs.GetString("PlayerName");
     }
+    private void OnEnable()
+    {
+        transform.localScale = new Vector3(0.45f, 0.45f, 0.45f);
+        transform.position = skin.transform.position;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Pipe") || other.CompareTag("DeadZone"))
+        if ((!isBig && other.CompareTag("Pipe")) || other.CompareTag("DeadZone"))
         {
             Die();
         }
-        //if (other.CompareTag("Item01"))
-        //{
-        //    //거대화 아이템
-        //    playerAudio.PlayOneShot(Item01Clip);
-        //}
-        //if (other.CompareTag("Item02"))
-        //{
-        //    //점수 증가 아이템
-        //    playerAudio.PlayOneShot(Item02Clip);
-        //}
-        //if (other.CompareTag("Item03"))
-        //{
-        //    //변신 아이템
-        //    playerAudio.PlayOneShot(Item03Clip);
-        //}
+        else if (isBig && other.CompareTag("Pipe"))
+        {
+            //커진상태로 파이프랑 부딪히면 안죽고 파이프 숨기기
+            playerAudio.PlayOneShot(breakClip);
+            other.GetComponent<pipe>().Hide();
+            Debug.Log(other.name + other.transform.parent.GetChild(0).name + "활성화");
+            other.transform.parent.GetChild(0).gameObject.SetActive(true); //파티클 맞게
+        }
+
+        if (other.CompareTag("Item"))
+        {
+            item getItem = other.transform.parent.GetComponent<item>();
+            getItem.waitSeconds(); //아이템 잠시 안보이게
+            if (getItem.type.Equals(1))
+            {
+                playerAudio.PlayOneShot(Item01Clip);    
+                StartCoroutine(biggerCo());
+            }
+            else if (getItem.type.Equals(2))
+            {
+                playerAudio.PlayOneShot(Item02Clip);
+                GameManager.Instance.score += 2;
+            }
+            else if (getItem.type.Equals(3))
+            {
+                skin.SetActive(true);
+                skin.GetComponent<PlayerController>().playItem3();
+                gameObject.SetActive(false);
+                //모델링 바꾸기
+            }
+        }
     }
     private void Update()
     {
@@ -56,22 +81,39 @@ public class PlayerController : MonoBehaviour
         {
             playerAudio.PlayOneShot(WingClip);  
             player_R.velocity = new Vector3(0, 0.5f, 0);
-            isJump = true;
-        }
-        if (isJump)
-        {
-            //StartCoroutine(WingMove_co());
-            isJump = false;
         }
 
-        //힘에 따라 캐릭터 로테이션 돌리기
-        if (player_R.velocity.y > 0 && (player_R.rotation.eulerAngles.x > 20))
+        //힘에 따라 캐릭터 로테이션 돌리기 - bird 만
+        if (player_R.velocity.y > 0 && player_R.rotation.x < 0.7f && gameObject.CompareTag("Player"))
         {
             transform.Rotate(new Vector3(80f * Time.deltaTime, 0, 0));
         }
-        if (player_R.velocity.y <= 0 && player_R.rotation.eulerAngles.x > 20)
+        if (player_R.velocity.y <= 0 && player_R.rotation.x > 0.1f && gameObject.CompareTag("Player"))
         {
             transform.Rotate(new Vector3(-85f * Time.deltaTime, 0, 0));
+        }
+
+        //날개 움직임
+
+        if (isUp)
+        {
+            Wings[0].localPosition -= Vector3.forward * Time.deltaTime;
+            Wings[1].localPosition -= Vector3.forward * Time.deltaTime;
+
+            if (Wings[0].localPosition.z <= -0.3)
+            {
+                isUp = false;
+            }
+        }
+        else
+        {
+            Wings[0].localPosition += Vector3.forward * Time.deltaTime;
+            Wings[1].localPosition += Vector3.forward * Time.deltaTime;
+
+            if (Wings[0].localPosition.z >= 0)
+            {
+                isUp = true;
+            }
         }
     }
 
@@ -84,14 +126,16 @@ public class PlayerController : MonoBehaviour
         //Gameover, Restart UI 작성
         GameManager.Instance.Gameover_Active();
     }
-
-    private IEnumerator WingMove_co()
+    private IEnumerator biggerCo()
     {
-        Wings[0].localPosition -= Vector3.forward * Time.deltaTime;
-
-        yield return new WaitForSeconds(2f);
-
-        Wings[0].localPosition += Vector3.forward * Time.deltaTime;
+        isBig = true;
+        transform.localScale = new Vector3(1.2f, 1.2f, 1.22f);
+        yield return new WaitForSeconds(4f);
+        isBig = false;
+        transform.localScale = new Vector3(0.45f, 0.45f, 0.45f);
     }
-
+    public void playItem3()
+    {
+        playerAudio.PlayOneShot(Item03Clip);
+    }
 }
