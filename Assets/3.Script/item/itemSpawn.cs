@@ -26,7 +26,6 @@ public class itemSpawn : MonoBehaviour
             background.isMove = false;
             
             int num = Random.Range(1, 4);
-            Debug.Log(num);
             if (num == 1)
             {
                 item01.SetActive(true);

@@ -27,8 +27,6 @@ public class PlayerController : MonoBehaviour
     {
         TryGetComponent(out player_R);
         TryGetComponent(out playerAudio);
-
-        //string name = PlayerPrefs.GetString("PlayerName");
     }
     private void OnEnable()
     {
@@ -47,7 +45,6 @@ public class PlayerController : MonoBehaviour
             //커진상태로 파이프랑 부딪히면 안죽고 파이프 숨기기
             playerAudio.PlayOneShot(breakClip);
             other.GetComponent<pipe>().Hide();
-            Debug.Log(other.name + other.transform.parent.GetChild(0).name + "활성화");
             other.transform.parent.GetChild(0).gameObject.SetActive(true); //파티클 맞게
         }
 

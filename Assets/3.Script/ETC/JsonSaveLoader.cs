@@ -47,7 +47,7 @@ public class JsonSaveLoader : MonoBehaviour
         if (File.Exists(path_Android))
         {
             
-            Debug.Log("저장된 기록이 존재합니다");
+            //Debug.Log("저장된 기록이 존재합니다");
 
             //배열로 담고 리스트로 변환
             arryData = JsonUtility.FromJson<ArryData>(File_Read());
